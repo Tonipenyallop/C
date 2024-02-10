@@ -4,41 +4,46 @@
 #include <string.h>
 
 int main(int argc, const char * argv[]){
-    // What I want
-    // ./calc
-    char methodType[255];
-    printf("Type method\n");
-    // type input:
-    fgets(methodType, sizeof methodType, stdin);
+    /*  update input to be -> ["calc", "123", "12", "1"] */
+    // 1. Create 2D array
+    // 2. Traverse array 
+    // 3. If first element is not "calc", return 0
+    // 4. Convert current element to integer
+    // 5. Add current element value to "Sum"
+    // 6. Return "Sum"
 
-    printf("%s", "methodType:");
-    printf("%s\n", methodType);
-    char calc[5] = {};
-    for (int i = 0; i < 4; i++){
-        calc[i] = methodType[i];
-    }
-    int result= strcmp(calc, "calc");
-
-    if (result == 0){
-        int sum = 0;
-        /*
-            Start from first number
-            Assume each number lengths are 1
-        */
-        for (int i = 5; i < sizeof methodType; i+=2){
-            if (strtok(&methodType[i], " ") != NULL){
-                sum += atoi(&methodType[i]);
-            }
-        }
-
-
-        // calc 1 2 3 4 5
-        // result = N
-        printf("%s", "sum:");
-        printf("%d\n", sum);
-    }
     
+    char input[255];
+    printf("Gimme your order sir\n");
+    
+    char *arr[255];
+    // type input:
+    fgets(input, sizeof input, stdin);
+    
+    char *token = strtok(input, " ");
+    int idx = 0;
+    
+    while (token != NULL){
+        arr[idx] = token;
+        token = strtok(NULL, " ");
+        idx += 1;
+
+    }
 
 
+    char *methodType = arr[0];
+    int result = strcmp(methodType, "calc");
+    if (result != 0){
+        printf("%s\n", "method should be 'calc'");
+        return 0;
+    }
 
+
+    int sum = 0;
+    for (int i = 1; i < idx; i++){
+        sum += atoi(arr[i]);
+    }
+
+    printf("%s", "sum:");
+    printf("%d\n", sum);
 }
