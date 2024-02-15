@@ -1,4 +1,7 @@
 #pragma once
+#include <stdlib.h>
+#include <stdio.h>
+
 
 /**
  * Note to implementer:
@@ -19,6 +22,8 @@ enum dynarray_error_t {
   ERR_BOUNDS = 4    /** Error: attempted to access an index of this array that does not exist. */
 };
 
+
+
 /**
  * Create a dynamic array, with the provided initial capacity and growth factor.
  *
@@ -29,12 +34,12 @@ enum dynarray_error_t {
  *
  * @return a pointer to the created array or NULL if it failed to allocate
  **/
-struct dynarray_t *dynarray_create(size_t capacity, size_t element_size, double growth_factor);
+struct dynarray *dynarray_create(size_t capacity, size_t element_size, double growth_factor);
 
 /**
  * Delete a dynarray. Does nothing if array is NULL
  */
-void dynarray_destroy(struct dynarray_t *array);
+void dynarray_destroy(struct dynarray *array);
 
 /**
  * Adds an element to the end of this array.
@@ -46,14 +51,14 @@ void dynarray_destroy(struct dynarray_t *array);
  * Returns ERR_NULL if array or p_in is NULL
  * Returns ERR_NO_ALLOC if append required a reallocation that failed
  */
-int dynarray_append(struct dynarray_t *, void *p_in);
+int dynarray_append(struct dynarray *array, void *p_in);
 
 /**
  * Returns the number of elements stored in the dynarray.
  *
  * @returns 0 if array is NULL
  */
-size_t dynarray_size(struct dynarray_t *);
+size_t dynarray_size(struct dynarray *);
 
 /**
  * Returns the number of elements that *could* be stored in this dynarray
@@ -61,7 +66,7 @@ size_t dynarray_size(struct dynarray_t *);
  *
  * Returns the capacity of the dynarray, or 0 if the array is NULL
  */
-size_t dynarray_capacity(struct dynarray_t *array);
+size_t dynarray_capacity(struct dynarray *array);
 
 /**
  * Stores a copy of the element in the location pointed at by 
@@ -70,7 +75,7 @@ size_t dynarray_capacity(struct dynarray_t *array);
  * Returns ERR_NULL if array or p_out is NULL
  * Returns ERR_BOUNDS if the provided index is not between 0 and size() - 1
  */
-int dynarray_get(struct dynarray_t *array, size_t index, void *p_out);
+int dynarray_get(struct dynarray *array, size_t index, void *p_out);
 
 /**
  * Sets the element at index 0 to the value pointed at by p_in.
@@ -79,7 +84,7 @@ int dynarray_get(struct dynarray_t *array, size_t index, void *p_out);
  * Returns ERR_NULL if array or p_in is NULL
  * Returns ERR_BOUNDS if the provided index is not between 0 and size() - 1
  */
-int dynarray_set(struct dynarray_t *array, size_t index, void *p_in);
+int dynarray_set(struct dynarray *array, size_t index, void *p_in);
 
 /**
  * Removes the element at the provided index. Elements after this index are
@@ -93,4 +98,4 @@ int dynarray_set(struct dynarray_t *array, size_t index, void *p_in);
  * Returns ERR_NULL if array is null
  * Returns ERR_BOUNDS if the provided index is not between 0 and size() - 1
  */
-int dynarray_remove(struct dynarray_t *, size_t index, void *p_out);
+int dynarray_remove(struct dynarray *, size_t index, void *p_out);
