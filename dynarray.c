@@ -1,3 +1,4 @@
+#include <string.h>
 #include "dynarray.h"
 
 struct dynarray {
@@ -75,3 +76,37 @@ int dynarray_append(struct dynarray *array, void *p_in){
 
 }
 
+
+
+int dynarray_get(struct dynarray *array, size_t index, void *p_out){
+
+  if (array == NULL || p_out == NULL) {
+    return ERR_NULL;
+  }
+  
+  if (index > array->length - 1){
+    return ERR_BOUNDS;
+  }
+
+
+  *((int *) p_out) = array->items_ptr[index];
+
+
+  return ERR_OK;  
+}
+
+
+int dynarray_set(struct dynarray *array, size_t index, void *p_in){
+  if (array == NULL || p_in == NULL){
+    return ERR_NULL;
+  }
+
+  if (index > array->length - 1){
+    return ERR_BOUNDS;
+  }
+
+  array->items_ptr[index] = *(int*) p_in;
+
+  return ERR_OK;
+
+}

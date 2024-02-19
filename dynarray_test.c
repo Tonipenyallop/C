@@ -3,13 +3,6 @@
 #include <stdio.h>
 
 
-struct dynarray {
-  size_t capacity;
-  size_t element_size;
-  double growth_factor;
-  int *items_ptr;
-  int length;
-};
 
 int main(){
     printf("main is called\n");
@@ -22,16 +15,55 @@ int main(){
 
 
     int input = 10;
-    int *ptr = &input;
 
+    int out;
 
-    dynarray_append(array,ptr);
+    int value = 77;
+
+    dynarray_append(array,&input);
+
+    dynarray_get(array, 0, &out);
+
+    if (out == input) {
+      printf("the value is 10\n");
+    }
     
-    printf("should be 10:%d\n", array->items_ptr[0]);
+    int get_result = dynarray_get(array, 1, &out);
+
+    if (get_result == ERR_BOUNDS){
+      printf("ERR_BOUNDS ERROR\n");
+    }
+
+    printf("output:%d\n", out);
+
+    dynarray_set(array,0, &value);
+
+    dynarray_get(array, 0, &out);
+
+
+    if (out == 77) {
+      printf("CONGRATS OUT IS 77\n");
+    }
+
+
+
+    
+    
+    // printf("should be 10:%d\n", array->items_ptr[0]);
     // printf("array->items_ptr[0]:%d\n", array->items_ptr[0]);
     dynarray_destroy(array);
 
     printf("Test finished\n");
+
+
+
+  // int x = 6;
+  // float f = 3.0f;
+  // float value = f / x;
+  // printf("value:%f\n", value);
+  //   int ivalue = ((int) f) / x;
+  // printf("value:%d\n", ivalue);
+
    
     return 0;
 }
