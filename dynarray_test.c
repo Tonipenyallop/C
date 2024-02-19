@@ -7,14 +7,14 @@
 int main(){
     printf("main is called\n");
     
-    struct dynarray *array = dynarray_create(5,4,2);
+    struct dynarray *array = dynarray_create(1,4,2);
     
     if(array == NULL){
         return 1;
     }
 
 
-    int input = 10;
+    int input = 521;
 
     int out;
 
@@ -25,7 +25,7 @@ int main(){
     dynarray_get(array, 0, &out);
 
     if (out == input) {
-      printf("the value is 10\n");
+      printf("the value is %d\n",out);
     }
     
     int get_result = dynarray_get(array, 1, &out);
@@ -46,6 +46,15 @@ int main(){
     }
 
 
+
+    int new_val = 815;
+    dynarray_append(array,&new_val);
+    size_t capacity = dynarray_capacity(array);
+    
+
+    if (capacity == 2){
+      printf("capacity should be 2:%zu\n",capacity);
+    }
 
     
     

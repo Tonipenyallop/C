@@ -42,38 +42,29 @@ void dynarray_destroy(struct dynarray *array){
 
 
 int dynarray_append(struct dynarray *array, void *p_in){
-    printf("dynarray_append was called\n");
     if (array == NULL || p_in == NULL){
         return ERR_NULL;
     }
 
-    printf("append was called\n");
-    printf("array length:%d\n",array->length);
     
-
-    // if capacity available
-    if (array->length < array->capacity ){
-        array->items_ptr[array->length] = 10;
-        array->length += 1;
-        return ERR_OK;
+    if (array->length >= array->capacity ){
+        // reallocate memory
+        double new_capacity = array->capacity * array->growth_factor;
+        int *realloc_ptr = realloc(array->items_ptr, new_capacity * sizeof(int));
+        
+        if (realloc_ptr == NULL){
+          dynarray_destroy(array);
+          return ERR_NO_ALLOC;
+        }
+        *array->items_ptr = *realloc_ptr;
+        array->capacity = new_capacity;
     }
 
-    // else {
-    //     array->capacity *= array->growth_factor;
 
-    //     array = realloc(array,array->capacity * array->element_size);
-    //     if (array == NULL){
-    //         return ERR_NO_ALLOC;
-    //     }
-
-    //     array->length += 1;
-    //     return ERR_OK;
-    // }
-    
-
-
+    array->items_ptr[array->length] = *(int*)p_in;
+    array->length += 1;
     return ERR_OK;
-
+    
 }
 
 
@@ -109,4 +100,21 @@ int dynarray_set(struct dynarray *array, size_t index, void *p_in){
 
   return ERR_OK;
 
+}
+
+
+
+size_t dynarray_capacity(struct dynarray *array){
+  if (array == NULL){
+    return ERR_NULL;
+  }
+  return array->capacity;
+}
+
+
+size_t dynarray_size(struct dynarray *array){
+ if (array == NULL){
+    return ERR_NULL;
+  }
+  return array->length; 
 }
