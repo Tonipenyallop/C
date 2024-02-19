@@ -1,0 +1,19 @@
+{
+  "files.associations": {
+    "stdio.h": "c",
+    "stdlib.h": "c",
+    "ctype.h": "c",
+    "string.h": "c",
+    "_size_t.h": "c",
+    "__locale": "c",
+    "__string": "c",
+    "bitset": "c",
+    "string_view": "c",
+    "__bit_reference": "c",
+    "__split_buffer": "c",
+    "vector": "c",
+    "__tuple": "cpp",
+    "array": "cpp"
+  },
+  "C_Cpp.errorSquiggles": "disabled"
+}
