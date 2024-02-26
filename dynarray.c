@@ -32,14 +32,10 @@ struct dynarray *dynarray_create(size_t capacity, size_t element_size, double gr
   return d;
 }
 
-
 void dynarray_destroy(struct dynarray *array){
     free(array);
     printf("dynarray destroyed\n");
 }
-
-
-
 
 int dynarray_append(struct dynarray *array, void *p_in){
     if (array == NULL || p_in == NULL){
@@ -67,7 +63,19 @@ int dynarray_append(struct dynarray *array, void *p_in){
     
 }
 
+size_t dynarray_size(struct dynarray *array){
+ if (array == NULL){
+    return ERR_NULL;
+  }
+  return array->length; 
+}
 
+size_t dynarray_capacity(struct dynarray *array){
+  if (array == NULL){
+    return ERR_NULL;
+  }
+  return array->capacity;
+}
 
 int dynarray_get(struct dynarray *array, size_t index, void *p_out){
 
@@ -86,7 +94,6 @@ int dynarray_get(struct dynarray *array, size_t index, void *p_out){
   return ERR_OK;  
 }
 
-
 int dynarray_set(struct dynarray *array, size_t index, void *p_in){
   if (array == NULL || p_in == NULL){
     return ERR_NULL;
@@ -102,19 +109,44 @@ int dynarray_set(struct dynarray *array, size_t index, void *p_in){
 
 }
 
-
-
-size_t dynarray_capacity(struct dynarray *array){
-  if (array == NULL){
+int dynarray_remove(struct dynarray *array, size_t index, void *p_out){
+  if (array == NULL || p_out == NULL){
     return ERR_NULL;
   }
-  return array->capacity;
-}
 
-
-size_t dynarray_size(struct dynarray *array){
- if (array == NULL){
-    return ERR_NULL;
+  if (index >= array->length){
+    return ERR_BOUNDS;
   }
-  return array->length; 
+
+  *(int*)p_out = array->items_ptr[index];
+
+  // 1. Create a same size array
+  int *tmp_ptr = malloc(array->capacity * array->element_size);
+
+  if (tmp_ptr == NULL){
+    return ERR_NO_ALLOC;
+  }
+
+  // 2. Copy till ith element
+  for (int i = 0; i < index; i++){
+    tmp_ptr[i] = array->items_ptr[i];
+  }
+
+  // 3. Update length
+  array->length -= 1;
+
+  // 4. Copy from ith till ith element
+  for (int i = index; i < array->length; i++){
+    tmp_ptr[i] = array->items_ptr[i];
+  }
+
+  // 5. Clean the memory
+  free(array->items_ptr);
+
+  // 6. Reassign item_ptr
+  array->items_ptr = tmp_ptr;
+  
+  return ERR_OK;
+
+
 }
