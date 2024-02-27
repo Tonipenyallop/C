@@ -9,6 +9,12 @@ struct dynarray {
   int length;
 };
 
+struct colored_square {
+  int x, y;
+  int size;
+  int color_code;
+}
+
 struct dynarray *dynarray_create(size_t capacity, size_t element_size, double growth_factor){
   printf("dynarray_create was called\n");
   struct dynarray *d = malloc(sizeof(struct dynarray));
