@@ -9,6 +9,12 @@ struct dynarray {
   int length;
 };
 
+struct colored_square {
+  int x, y;
+  int size;
+  int color_code;
+}
+
 struct dynarray *dynarray_create(size_t capacity, size_t element_size, double growth_factor){
   printf("dynarray_create was called\n");
   struct dynarray *d = malloc(sizeof(struct dynarray));
@@ -103,7 +109,20 @@ int dynarray_set(struct dynarray *array, size_t index, void *p_in){
     return ERR_BOUNDS;
   }
 
+  // in C ptr = memory address + size information (type)
+  // e.g. int *ptr = &array; means ptr points to the same address as array, and works in units of size 4 (sizeof(int))
+  // addr + size(width)
+
+  // pointers have 2 operators
+  // Operator 1: &x -> address-of operator (given a variable with a type, give a pointer to that type)
+  // int foo = 3;
+  // int *bar = &foo;
+  // Operator 2: *p -> value-at operator (given a pointer, give the data represented by the pointers type at the address)
+  // printf("%d\n", *bar); // prints 3.
+  // *bar = 4;
+  // foo = 4; // these two statements do the exact same thing.
   array->items_ptr[index] = *(int*) p_in;
+  *(array->itemp_ptr + index) = *(int*) p_in;
 
   return ERR_OK;
 
