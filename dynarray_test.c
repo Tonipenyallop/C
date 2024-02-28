@@ -2,6 +2,74 @@
 // #include "dynarray.c"
 #include <stdio.h>
 
+// is there any way to not declaring below?
+struct dynarray {
+  size_t capacity;
+  size_t element_size;
+  double growth_factor;
+  int *items_ptr;
+  int length;
+};
+
+int test_remove(struct dynarray *array){
+    printf("\n ----- test_remove started ----- \n");
+
+    int removed_value;
+    int result = dynarray_remove(array, 1, &removed_value);
+
+    if (result != ERR_OK){
+      printf("result should be ERR_OK :%d\n", result);
+      return 1;
+    } else {
+      printf("Passed the ERR_OK test\n");
+    }
+
+    if (removed_value != 815){
+      printf("Removed_value should be 815:%d\n", removed_value);
+      return 1;
+    } else {
+      printf("Passed removed value test\n");
+    }
+
+    if (array->length != 1){
+      printf("The length should be 1:%d\n", array->length);
+      return 1;
+    } else {
+      printf("Passed the length test");
+    }
+
+    int result2 = dynarray_remove(array, 1, &removed_value);
+
+    if (result2 != ERR_BOUNDS){
+      printf("result2 should be ERROR_BOUNDS:%d\n", result2);
+      return 1;
+    } else {
+      printf("Passed ERROR_BOUNDS test:%d\n", result2);
+    }
+
+    printf("----- All of the tests passed :D ----- \n\n");
+    return 0;
+
+}
+
+
+int test_append_string(struct dynarray *array){
+  char *name = "taesu";
+  dynarray_append(array, &name);
+  
+  // if (array->items_ptr[0] != name){
+  //   printf("Name 'taesu' should be appended:%c",array->items_ptr[0]);
+  //   return 1;
+  // } else {
+  //   printf("Passed the string append test");
+  // }
+  
+
+  return 0;
+  
+} 
+
+
 
 
 int main(){
@@ -67,21 +135,20 @@ int main(){
     }
 
 
-    int removed_value;
-    dynarray_remove(array,1, &removed_value);
+    int result = test_remove(array);
 
-    if (removed_value != 815){
-      printf("removed_value should be 815:%d\n", removed_value);
-    }else {
-      printf("Remove test1 passed\n");
-    }
-
-    // printf("should be 10:%d\n", array->items_ptr[0]);
-    // printf("array->items_ptr[0]:%d\n", array->items_ptr[0]);
     dynarray_destroy(array);
+
+
+    struct dynarray *str_array = dynarray_create(1,4,2);
+
+
+    // test_append_string(str_array);
+
+
 
     printf("Test finished\n");
 
    
     return 0;
-}
+};
