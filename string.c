@@ -1,5 +1,13 @@
 #include <stdio.h>
-char *strcpy(char *dest, const char *src);
+
+char *strcpy(char *dest, const char *src){
+    printf("strcpy was called mate\n");
+    for (int i = 0; src[i] != '\0'; i++){
+        dest[i] = src[i];
+    }
+    return dest;
+}
+
 
 
 int main() {
@@ -9,6 +17,7 @@ int main() {
   strcpy(buffer, "butts");
   printf("%s\n", buffer);
   return 0;
-} //program should output:
+}
+//program should output:
 // poop
 // butts
