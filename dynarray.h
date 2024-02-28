@@ -1,8 +1,3 @@
-#pragma once
-#include <stdlib.h>
-#include <stdio.h>
-
-
 /**
  * Note to implementer:
  * You probably want to use these functions from the C standard library.
@@ -11,6 +6,10 @@
  * realloc()
  * memcpy()
  */
+
+#pragma once
+
+#include <stdlib.h>
 
 /* Error definitions. */
 
@@ -21,8 +20,6 @@ enum dynarray_error_t {
   ERR_NO_ALLOC = 3, /** Error: a memory allocation failed internally. */
   ERR_BOUNDS = 4    /** Error: attempted to access an index of this array that does not exist. */
 };
-
-
 
 /**
  * Create a dynamic array, with the provided initial capacity and growth factor.
@@ -58,7 +55,7 @@ int dynarray_append(struct dynarray *array, void *p_in);
  *
  * @returns 0 if array is NULL
  */
-size_t dynarray_size(struct dynarray *);
+size_t dynarray_size(struct dynarray *array);
 
 /**
  * Returns the number of elements that *could* be stored in this dynarray
@@ -98,4 +95,18 @@ int dynarray_set(struct dynarray *array, size_t index, void *p_in);
  * Returns ERR_NULL if array is null
  * Returns ERR_BOUNDS if the provided index is not between 0 and size() - 1
  */
-int dynarray_remove(struct dynarray *, size_t index, void *p_out);
+int dynarray_remove(struct dynarray *array, size_t index, void *p_out);
+
+/**
+ * Direct addition if the dynarray contains elements of size 1, 2, 4, or 8 bytes.
+ */
+#define dynarray_append_direct(array, element) __dynarray_append_direct(array, element)
+int __dynarray_append_direct(struct dynarray *array, ...);
+
+/**
+ * Direct addition if the dynarray contains elements of size 1, 2, 4, or 8 bytes.
+ */
+#define dynarray_set_direct(array, element) __dynarray_set_direct(array, index, element)
+int __dynarray_set_direct(struct dynarray *array, size_t index, ...);
+
+
