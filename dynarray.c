@@ -47,7 +47,7 @@ int dynarray_append(struct dynarray *array, void *p_in){
     if (array->length >= array->capacity ){
         // reallocate memory
         double new_capacity = array->capacity * array->growth_factor;
-        int *realloc_ptr = realloc(array->items_ptr, new_capacity * sizeof(int));
+        int *realloc_ptr = realloc(array->items_ptr, new_capacity * sizeof(array->element_size));
         
         if (realloc_ptr == NULL){
           dynarray_destroy(array);
@@ -57,8 +57,8 @@ int dynarray_append(struct dynarray *array, void *p_in){
         array->capacity = new_capacity;
     }
 
-
-    array->items_ptr[array->length] = *(int*)p_in;
+    memcpy(&(array->items_ptr[array->length]), p_in, array->element_size + 1);
+    
     array->length += 1;
     return ERR_OK;
     

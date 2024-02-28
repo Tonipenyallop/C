@@ -7,7 +7,7 @@ struct dynarray {
   size_t capacity;
   size_t element_size;
   double growth_factor;
-  int *items_ptr;
+  void **items_ptr;
   int length;
 };
 
@@ -57,12 +57,14 @@ int test_append_string(struct dynarray *array){
   char *name = "taesu";
   dynarray_append(array, &name);
   
-  // if (array->items_ptr[0] != name){
-  //   printf("Name 'taesu' should be appended:%c",array->items_ptr[0]);
-  //   return 1;
-  // } else {
-  //   printf("Passed the string append test");
-  // }
+    printf("array->items_ptr[0]: %s\n", (char*)array->items_ptr[0]);
+
+  if (*(char*)array->items_ptr[0] != *name){
+    printf("Name 'taesu' should be appended:%s\n",(char*)array->items_ptr[0]);
+    return 1;
+  } else {
+    printf("Passed the string append test");
+  }
   
 
   return 0;
@@ -143,7 +145,7 @@ int main(){
     struct dynarray *str_array = dynarray_create(1,4,2);
 
 
-    // test_append_string(str_array);
+    test_append_string(str_array);
 
 
 
